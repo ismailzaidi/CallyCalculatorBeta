@@ -1,5 +1,6 @@
 package com.kiiolabs.cally.controller;
 
+import info.androidhive.slidingmenu.R;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -54,38 +55,46 @@ public class Controller implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		onButtonEffect(button);
-		this.textField.append(this.button.getText().toString());
-		if (this.textField.getText().equals("0.0")
-				|| this.textField.getText().equals("0")) {
-			this.textField.setText("");
-		}
-		if (this.button.getText().equals("=")) {
-			String str = this.textField.getText().toString();
-			str = str.replaceAll("x", "*");
-			double result =0.0;
-			try {
-				result = getResult(str.replaceAll("=", ""));
-				String num = String.valueOf(result);
-				System.out.println("String Contains:  " + num);
-				
-				System.out.println("Validation:  " + validator(num));
-				if (validator(num)) {
-					String intValue = num.replaceAll("\\.[0]", "");
-					this.textField.setText(intValue);
-					savePreferences("VALUE", intValue);
-				} else {
-					this.textField.setText(num);
-					savePreferences("VALUE", num);
-				}
-			} catch (EvalError e) {
-				// TODO Auto-generated catch block
-				this.textField.setText("Syntax Error");
-				e.printStackTrace();
+		String str = this.textField.getText().toString();
+		if (v.getId() == R.id.delete) {
+			if(str.length()!=0){
+			StringBuilder strBuilder = new StringBuilder(str);
+			strBuilder= strBuilder.deleteCharAt(str.length()-1);
+			this.textField.setText(strBuilder.toString());
 			}
+		} else {
+			this.textField.append(this.button.getText().toString());
+			if (this.textField.getText().equals("0.0")
+					|| this.textField.getText().equals("0")) {
+				this.textField.setText("");
+			}
+			if (this.button.getText().equals("=")) {
+				str = str.replaceAll("x", "*");
+				double result = 0.0;
+				try {
+					result = getResult(str.replaceAll("=", ""));
+					String num = String.valueOf(result);
+					System.out.println("String Contains:  " + num);
 
-		} else if (this.button.getText().equals("C")) {
-			this.textField.setText("");
-			this.textField.setHint("0");
+					System.out.println("Validation:  " + validator(num));
+					if (validator(num)) {
+						String intValue = num.replaceAll("\\.[0]", "");
+						this.textField.setText(intValue);
+						savePreferences("VALUE", intValue);
+					} else {
+						this.textField.setText(num);
+						savePreferences("VALUE", num);
+					}
+				} catch (EvalError e) {
+					// TODO Auto-generated catch block
+					this.textField.setText("Syntax Error");
+					e.printStackTrace();
+				}
+
+			} else if (this.button.getText().equals("C")) {
+				this.textField.setText("");
+				this.textField.setHint("0");
+			}
 		}
 	}
 
@@ -94,7 +103,7 @@ public class Controller implements OnClickListener {
 		double num = 0;
 		interpt.eval("result =" + input);
 		num = Double.parseDouble(String.valueOf(interpt.get("result")));
-		System.out.println("Register: " +num);
+		System.out.println("Register: " + num);
 		return num;
 	}
 
@@ -106,6 +115,7 @@ public class Controller implements OnClickListener {
 			return false;
 		}
 	}
+
 	private void loadSavedPreferences() {
 		SharedPreferences sharedPreferences = PreferenceManager
 				.getDefaultSharedPreferences(context);
