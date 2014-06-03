@@ -58,7 +58,8 @@ public class MainContainer extends Fragment{
 		btnRightBracket = (Button) rootView
 				.findViewById(R.id.rightBracket);
 		btnDelete = (Button) rootView.findViewById(R.id.delete);
-		
+		txtField.setFocusable(false);
+		txtField.setClickable(false);
 		addToArray();
 		setFontText();
 		setUpListeners();
