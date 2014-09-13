@@ -5,23 +5,27 @@ import info.androidhive.slidingmenu.R;
 
 import java.util.ArrayList;
 
-import com.kiiolabs.cally.controller.Controller;
-
-
 import android.app.Fragment;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.InputType;
+import android.view.ActionMode;
+import android.view.ActionMode.Callback;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.kiiolabs.cally.controller.Controller;
+
 public class MainContainer extends Fragment{
 	
 	private EditText txtField;
 
-	Button btnzero, btnone, btntwo, btnthree, btnfour, btnfive, btnsix,
+	private Button btnzero, btnone, btntwo, btnthree, btnfour, btnfive, btnsix,
 			btnseven, btneight, btnnine, btnmultiply, btndivide, btnadd,
 			btnsubtract, btndecimal, btnnewCal, btnLeftBracket,
 			btnRightBracket, btnEqual, btnDelete;
@@ -58,12 +62,32 @@ public class MainContainer extends Fragment{
 		btnRightBracket = (Button) rootView
 				.findViewById(R.id.rightBracket);
 		btnDelete = (Button) rootView.findViewById(R.id.delete);
-		txtField.setFocusable(false);
-		txtField.setClickable(false);
+		
+		setEditTextProperties();
 		addToArray();
 		setFontText();
 		setUpListeners();
 		return rootView;
+	}
+	public void setEditTextProperties(){
+		txtField.setInputType(InputType.TYPE_NULL);
+		txtField.setCustomSelectionActionModeCallback(new Callback() {
+
+            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                return false;
+            }
+
+            public void onDestroyActionMode(ActionMode mode) {                  
+            }
+
+            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                return true;
+            }
+
+            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                return true;
+            }
+        });
 	}
 	public void addToArray(){
 		buttonArray.add(btnzero);

@@ -4,10 +4,6 @@ import info.androidhive.slidingmenu.R;
 
 import java.util.ArrayList;
 
-import com.kiiolabs.cally.adapter.NavDrawerListAdapter;
-import com.kiiolabs.cally.model.NavDrawerItem;
-
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -23,8 +19,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
+import com.kiiolabs.cally.adapter.NavDrawerListAdapter;
+import com.kiiolabs.cally.model.NavDrawerItem;
 
 public class MainActivity extends Activity {
 	private DrawerLayout mDrawerLayout;
@@ -46,8 +46,9 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		ActionBar bar = this.getActionBar();
-		bar.hide();
+	    getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+	    getActionBar().hide();
+	    
 		setContentView(R.layout.activity_main);
 		mTitle = mDrawerTitle = getTitle();
 		// load slide menu items
@@ -59,7 +60,6 @@ public class MainActivity extends Activity {
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.list_slidermenu);
-//		button = (Button) findViewById(R.id.button1);
 
 		navDrawerItems = new ArrayList<NavDrawerItem>();
 
@@ -88,9 +88,8 @@ public class MainActivity extends Activity {
 				navDrawerItems);
 		mDrawerList.setAdapter(adapter);
 
-		// enabling action bar app icon and behaving it as toggle button
-//		getActionBar().setDisplayHomeAsUpEnabled(true);
-//		getActionBar().setHomeButtonEnabled(true);
+//		 enabling action bar app icon and behaving it as toggle button
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
 				R.drawable.ic_launcher, //nav menu toggle icon
@@ -138,28 +137,12 @@ public class MainActivity extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// toggle nav drawer on selecting action bar app icon/title
-		if (mDrawerToggle.onOptionsItemSelected(item)) {
-			return true;
-		}
-		// Handle action bar actions click
-		switch (item.getItemId()) {
-		case R.id.action_settings:
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
+		return false;
 	}
 
-	/* *
-	 * Called when invalidateOptionsMenu() is triggered
-	 */
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		// if nav drawer is opened, hide the action items
-		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-		menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
-		return super.onPrepareOptionsMenu(menu);
+		return false;
 	}
 	
 	private void displayView(int position) {

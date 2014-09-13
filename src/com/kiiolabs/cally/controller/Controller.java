@@ -1,20 +1,21 @@
 package com.kiiolabs.cally.controller;
 
 import info.androidhive.slidingmenu.R;
+
+import org.nfunk.jep.JEP;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.PorterDuff;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.EditText;
-import bsh.EvalError;
-import bsh.Interpreter;
 
 public class Controller implements OnClickListener {
 
@@ -56,64 +57,44 @@ public class Controller implements OnClickListener {
 	public void onClick(View v) {
 		onButtonEffect(button);
 		String str = this.textField.getText().toString();
+		postToViews(str, v);
+	}
+
+	public void postToViews(String str, View v) {
 		if (v.getId() == R.id.delete) {
-			if(str.length()!=0){
-			StringBuilder strBuilder = new StringBuilder(str);
-			strBuilder= strBuilder.deleteCharAt(str.length()-1);
-			this.textField.setText(strBuilder.toString());
+			if (str.length() != 0) {
+				StringBuilder strBuilder = new StringBuilder(str);
+				strBuilder = strBuilder.deleteCharAt(str.length() - 1);
+				this.textField.setText(strBuilder.toString());
+				savePreferences("VALUE", strBuilder.toString());
 			}
 		} else {
 			this.textField.append(this.button.getText().toString());
-			if (this.textField.getText().equals("0.0")
-					|| this.textField.getText().equals("0")) {
-				this.textField.setText("");
-			}
 			if (this.button.getText().equals("=")) {
 				str = str.replaceAll("x", "*");
 				double result = 0.0;
-				try {
-					result = getResult(str.replaceAll("=", ""));
-					String num = String.valueOf(result);
-					System.out.println("String Contains:  " + num);
-
-					System.out.println("Validation:  " + validator(num));
-					if (validator(num)) {
-						String intValue = num.replaceAll("\\.[0]", "");
-						this.textField.setText(intValue);
-						savePreferences("VALUE", intValue);
-					} else {
-						this.textField.setText(num);
-						savePreferences("VALUE", num);
-					}
-				} catch (EvalError e) {
-					// TODO Auto-generated catch block
+				result = getResult(str.replaceAll("=", ""));
+				// Exception Handler
+				if (Double.compare(Double.NaN, result) != 0) {
+					this.textField.setText(String.valueOf(result));
+					savePreferences("VALUE", String.valueOf(result));
+				} else {
 					this.textField.setText("Syntax Error");
-					e.printStackTrace();
 				}
-
+				// TODO Auto-generated catch block
 			} else if (this.button.getText().equals("C")) {
+				String hint = "0";
 				this.textField.setText("");
-				this.textField.setHint("0");
+				this.textField.setHint(hint);
+				savePreferences("VALUE", hint);
 			}
 		}
 	}
 
-	public static double getResult(String input) throws EvalError {
-		Interpreter interpt = new Interpreter();
-		double num = 0;
-		interpt.eval("result =" + input);
-		num = Double.parseDouble(String.valueOf(interpt.get("result")));
-		System.out.println("Register: " + num);
-		return num;
-	}
-
-	public boolean validator(String input) {
-		String REGEX = "\\d+\\.[0]{1}";
-		if (input.matches(REGEX)) {
-			return true;
-		} else {
-			return false;
-		}
+	public static double getResult(String input) {
+		JEP parser = new JEP();
+		parser.parseExpression(input);
+		return parser.getValue();
 	}
 
 	private void loadSavedPreferences() {
