@@ -1,7 +1,5 @@
 package com.kiiolabs.cally.view;
 
-import info.androidhive.slidingmenu.R;
-
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -23,6 +21,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.kiiolabs.cally.R;
 import com.kiiolabs.cally.adapter.NavDrawerListAdapter;
 import com.kiiolabs.cally.model.NavDrawerItem;
 
@@ -48,10 +47,8 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 	    getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
 	    getActionBar().hide();
-	    
 		setContentView(R.layout.activity_main);
 		mTitle = mDrawerTitle = getTitle();
-		// load slide menu items
 		navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
 
 		// nav drawer icons from resources
@@ -63,27 +60,16 @@ public class MainActivity extends Activity {
 
 		navDrawerItems = new ArrayList<NavDrawerItem>();
 
-		// adding nav drawer items to array
-		// Home
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[0], navMenuIcons.getResourceId(0, -1)));
-		// Find People
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons.getResourceId(1, -1)));
-		// Photos
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
-		// Communities, Will add a counter here
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1)));
-		// Pages
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
-		// What's hot, We  will add a counter here
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1)));
-		
-
-		// Recycle the typed array
 		navMenuIcons.recycle();
 
 		mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
 
-		// setting the nav drawer list adapter
 		adapter = new NavDrawerListAdapter(getApplicationContext(),
 				navDrawerItems);
 		mDrawerList.setAdapter(adapter);
@@ -151,22 +137,22 @@ public class MainActivity extends Activity {
 		savePreferences("ITEM", position);
 		switch (position) {
 		case 0:
-			fragment = new SunFlowerFragment();
+			fragment = MainContainer.InstanceOf(R.layout.fragment_sunflower);
 			break;
 		case 1:
-			fragment = new BelizeHoleFragment();
+			fragment = MainContainer.InstanceOf(R.layout.fragment_belizehole);
 			break;
 		case 2:
-			fragment = new AlizainFragment();
+			fragment = MainContainer.InstanceOf(R.layout.fragment_alizain);
 			break;
 		case 3:
-			fragment = new CarrotFragment();
+			fragment = MainContainer.InstanceOf(R.layout.fragment_carrot);
 			break;
 		case 4:
-			fragment = new EmeraldFragment();
+			fragment = MainContainer.InstanceOf(R.layout.fragment_emerald);
 			break;
 		case 5:
-			fragment = new GreenSeaFragment();
+			fragment = MainContainer.InstanceOf(R.layout.fragment_greensea);
 			break;
 
 		default:

@@ -1,10 +1,6 @@
 package com.kiiolabs.cally.adapter;
 
-import info.androidhive.slidingmenu.R;
-
 import java.util.ArrayList;
-
-import com.kiiolabs.cally.model.NavDrawerItem;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,6 +12,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.kiiolabs.cally.R;
+import com.kiiolabs.cally.model.NavDrawerItem;
+/**
+ * 	This is the List adapter containing the items of the navigation bar
+ * @author Ismail Zaidi
+ *
+ */
 public class NavDrawerListAdapter extends BaseAdapter {
 
 	private Context context;
@@ -85,8 +88,6 @@ public class NavDrawerListAdapter extends BaseAdapter {
 		if (position == 5)
 			txtTitle.setTextColor(this.context.getResources().getColor(
 					R.color.greensea));
-		// displaying count
-		// check whether it set visible or not
 		if (navDrawerItems.get(position).getCounterVisibility()) {
 			txtCount.setText(navDrawerItems.get(position).getCount());
 		} else {
@@ -96,5 +97,6 @@ public class NavDrawerListAdapter extends BaseAdapter {
 
 		return convertView;
 	}
+	
 
 }

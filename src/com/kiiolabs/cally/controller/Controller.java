@@ -1,15 +1,7 @@
 package com.kiiolabs.cally.controller;
 
-import info.androidhive.slidingmenu.R;
-
-import org.nfunk.jep.JEP;
-
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.graphics.PorterDuff;
-import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,18 +9,37 @@ import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.kiiolabs.cally.R;
+import com.kiiolabs.cally.model.Model;
+
+/**
+ * Controller for handelling user input
+ * 
+ * @author Ismail Zaidi
+ *
+ */
 public class Controller implements OnClickListener {
 
 	private Button button;
 	private Context context;
 	private EditText textField;
+	private Model model;
 
 	public Controller(Button button, Context context, EditText textField) {
 		super();
 		this.button = button;
 		this.context = context;
 		this.textField = textField;
-		loadSavedPreferences();
+		model = new Model(context);
+		SetOnText();
+
+	}
+
+	public void SetOnText() {
+		String savedValue = model.loadSavedPreferences();
+		if (!savedValue.equals("0") && savedValue != null) {
+			this.textField.setText(savedValue);
+		}
 	}
 
 	public void onButtonEffect(View button) {
@@ -66,49 +77,13 @@ public class Controller implements OnClickListener {
 				StringBuilder strBuilder = new StringBuilder(str);
 				strBuilder = strBuilder.deleteCharAt(str.length() - 1);
 				this.textField.setText(strBuilder.toString());
-				savePreferences("VALUE", strBuilder.toString());
+				model.savePreferences(strBuilder.toString());
 			}
 		} else {
 			this.textField.append(this.button.getText().toString());
-			if (this.button.getText().equals("=")) {
-				str = str.replaceAll("x", "*");
-				double result = 0.0;
-				result = getResult(str.replaceAll("=", ""));
-				// Exception Handler
-				if (Double.compare(Double.NaN, result) != 0) {
-					this.textField.setText(String.valueOf(result));
-					savePreferences("VALUE", String.valueOf(result));
-				} else {
-					this.textField.setText("Syntax Error");
-				}
-				// TODO Auto-generated catch block
-			} else if (this.button.getText().equals("C")) {
-				String hint = "0";
-				this.textField.setText("");
-				this.textField.setHint(hint);
-				savePreferences("VALUE", hint);
-			}
+			model.setDataToEditText(this.button,str, this.textField);
+			model.savePreferences(this.textField.getText().toString());
 		}
 	}
 
-	public static double getResult(String input) {
-		JEP parser = new JEP();
-		parser.parseExpression(input);
-		return parser.getValue();
-	}
-
-	private void loadSavedPreferences() {
-		SharedPreferences sharedPreferences = PreferenceManager
-				.getDefaultSharedPreferences(context);
-		String name = sharedPreferences.getString("VALUE", "0");
-		this.textField.setText(name);
-	}
-
-	private void savePreferences(String key, String value) {
-		SharedPreferences sharedPreferences = PreferenceManager
-				.getDefaultSharedPreferences(context);
-		Editor editor = sharedPreferences.edit();
-		editor.putString(key, value);
-		editor.commit();
-	}
 }
