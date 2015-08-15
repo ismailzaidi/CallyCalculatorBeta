@@ -15,5 +15,10 @@
     <color name="carrot">#e37e23</color>
     <color name="emerald">#2ccc71</color>
     <color name="greensea">#169b84</color>
+    <color name="blueberry">#522579</color>
+    <color name="shade">#676767</color>
+    <color name="bluesky">#0bc2c0</color>
+    <color name="tunnel">#151818</color>
+    <color name="glow">#cb00c9</color>
     
 </resources>

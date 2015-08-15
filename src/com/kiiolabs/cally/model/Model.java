@@ -16,7 +16,7 @@ import android.widget.EditText;
 
 public class Model {
 	private Context context;
-	private String KEY_VALUE = "com.kiiolabs.cally";
+	private String KEY_VALUE = "com.kiiolabs.cally.value";
 
 	public Model(Context context) {
 		super();

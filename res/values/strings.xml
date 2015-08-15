@@ -24,26 +24,92 @@
     <string name="rightBracket">)</string>
     <string name="deleteButton">DEL</string>
     <string name="syntaxerror">Syntax Error</string>
-  
-    <!-- Nav Drawer Menu Items -->
+    <string name="cleartext">Clear All</string>
+    <string name="sin">sin</string>
+    <string name="cos">cos</string>
+    <string name="tan">tan</string>
+    <string name="sinh">sinh</string>
+    <string name="cosh">cosh</string>
+    <string name="tanh">tanh</string>
+    <string name="log">log</string>
+    <string name="exp">exp</string>
+    <string name="mod">mod</string>
+    <string name="multiplerTen">10x</string>
+    <string name="factorial">!n</string>
+    <string name="square_root"><![CDATA[&radic;<span style="text-decoration:overline;">&nbsp;x&nbsp;</span>]]></string>
+    <string name="square_root_cube"> <![CDATA[<sup>3</sup>&radic;]]></string>
+    <string name="square"><![CDATA[x<sup>2</sup>]]></string>
+    <string name="square_y"><![CDATA[x<sup>y</sup>]]></string>
+    <string name="cube"><![CDATA[x<sup>3</sup>]]></string>
+
     <string-array name="nav_drawer_items">
+        <item>Regular</item>
+        <item>Scientific</item>
+        <item>Colour Scheme</item>
+        <item>History</item>
+        <item>About</item>
+    </string-array>
+
+    <array name="nav_drawer_icons">
+        <item>@drawable/regular_icon</item>
+        <item>@drawable/scientific</item>
+        <item>@drawable/colour_icon</item>
+        <item>@drawable/history_icon</item>
+        <item>@drawable/about_icon</item>
+    </array>
+
+    <string-array name="scheme_items">
         <item>sunflower</item>
         <item>belize hole</item>
         <item>alizarin</item>
         <item>carrot</item>
-        <item>emerald</item>
         <item>green sea</item>
+        <item>emerald</item>
+        <item>blueberry</item>
+        <item>shade</item>
+        <item>bluesky</item>
+        <item>tunnel</item>
+        <item>glow</item>
     </string-array>
-
-    <!-- Nav Drawer List Item Icons -->
-    <!-- Keep them in order as the titles are in -->
-    <array name="nav_drawer_icons">
+    <array name="scheme_icons">
         <item>@drawable/yellow</item>
         <item>@drawable/belizeblue</item>
         <item>@drawable/alzaiani</item>
         <item>@drawable/orange</item>
         <item>@drawable/green</item>
         <item>@drawable/darkgreen</item>
+        <item>@drawable/blueberry</item>
+        <item>@drawable/shade</item>
+        <item>@drawable/bluesky</item>
+        <item>@drawable/tunnel</item>
+        <item>@drawable/glow</item>
+    </array>
+    <array name="scheme_ticks_icons">
+        <item>@drawable/yellow_tick</item>
+        <item>@drawable/belizeblue_tick</item>
+        <item>@drawable/alzaiani_tick</item>
+        <item>@drawable/orange_tick</item>
+        <item>@drawable/green_tick</item>
+        <item>@drawable/darkgreen_tick</item>
+        <item>@drawable/blueberry_tick</item>
+        <item>@drawable/shade_tick</item>
+        <item>@drawable/bluesky_tick</item>
+        <item>@drawable/tunnel_tick</item>
+        <item>@drawable/glow_tick</item>
+    </array>
+    <array name="colorscheme_icons">
+        <item>@color/sunflower</item>
+        <item>@color/belizehole</item>
+        <item>@color/alizarin</item>
+        <item>@color/carrot</item>
+        <item>@color/greensea</item>
+        <item>@color/emerald</item>
+        <item>@color/blueberry</item>
+        <item>@color/shade</item>
+        <item>@color/bluesky</item>
+        <item>@color/tunnel</item>
+        <item>@color/glow</item>
+        
     </array>
 
     <!-- Content Description -->
