@@ -27,7 +27,7 @@ import com.kiiolabs.cally.model.bean.HistoryCalculation;
  * @author Ismail Zaidi
  *
  */
-public class Controller implements OnClickListener {
+public class GlobalButtonListener implements OnClickListener {
 
 	private Button button;
 	private Context context;
@@ -36,9 +36,8 @@ public class Controller implements OnClickListener {
 	private MathamaticalFunctions math_functions;
 	private Utility utiliy;
 	private DBHandler handler;
-	private HistoryCalculation calculations;
 
-	public Controller(Button button, Context context, EditText textField) {
+	public GlobalButtonListener(Button button, Context context, EditText textField) {
 		super();
 		this.button = button;
 		this.context = context;
@@ -46,7 +45,6 @@ public class Controller implements OnClickListener {
 		model = new Model(context);
 		utiliy = new Utility(context);
 		math_functions = new MathamaticalFunctions();
-		calculations = new HistoryCalculation();
 		handler = new DBHandler(context);
 		SetOnText();
 
@@ -80,9 +78,7 @@ public class Controller implements OnClickListener {
 		case R.id.squareRootButton:
 			if (checkInput()) {
 				double result = math_functions.getSquareRoot();
-				this.textField.setText(String.valueOf(result));
-				
-				globalDataSave("sqrt("+str+")", String.valueOf(result));
+				postToEditText("sqrt(" + str + ")", String.valueOf(result), "setText");
 			} else {
 				refreshEditText();
 			}
@@ -90,8 +86,7 @@ public class Controller implements OnClickListener {
 		case R.id.squareButton:
 			if (checkInput()) {
 				double result = math_functions.getSquare();
-				this.textField.setText(String.valueOf(result));
-				globalDataSave("x^2 x = " +str, String.valueOf(result));
+				postToEditText("x^2 x = " + str, String.valueOf(result), "setText");
 			} else {
 				refreshEditText();
 			}
@@ -99,8 +94,7 @@ public class Controller implements OnClickListener {
 		case R.id.expButton:
 			if (checkInput()) {
 				double result = math_functions.getExp();
-				this.textField.setText(String.valueOf(result));
-				globalDataSave("Ex = " +str, String.valueOf(result));
+				postToEditText("Ex = " + str, String.valueOf(result), "setText");
 			} else {
 				refreshEditText();
 			}
@@ -108,8 +102,7 @@ public class Controller implements OnClickListener {
 		case R.id.factorialButton:
 			if (checkInput()) {
 				double result = math_functions.getFactorial();
-				this.textField.setText(String.valueOf(result));
-				globalDataSave("!n, n = " +str, String.valueOf(result));
+				postToEditText("!n, n = " + str, String.valueOf(result), "setText");
 			} else {
 				refreshEditText();
 			}
@@ -117,8 +110,7 @@ public class Controller implements OnClickListener {
 		case R.id.squareCubeButton:
 			if (checkInput()) {
 				double result = math_functions.getCube();
-				this.textField.setText(String.valueOf(result));
-				globalDataSave("x^3 x = " +str, String.valueOf(result));
+				postToEditText("x^3 x = " + str, String.valueOf(result), "setText");
 			} else {
 				refreshEditText();
 			}
@@ -126,8 +118,7 @@ public class Controller implements OnClickListener {
 		case R.id.tenMultiplierButton:
 			if (checkInput()) {
 				double result = math_functions.getTenMultiplier();
-				this.textField.setText(String.valueOf(result));
-				globalDataSave("10x  x = " +str, String.valueOf(result));
+				postToEditText("10x  x = " + str, String.valueOf(result), "setText");
 			} else {
 				refreshEditText();
 			}
@@ -135,8 +126,7 @@ public class Controller implements OnClickListener {
 		case R.id.sinButton:
 			if (checkInput()) {
 				double result = math_functions.getSin();
-				this.textField.setText(String.valueOf(result));
-				globalDataSave("sin("+str+")", String.valueOf(result));
+				postToEditText("sin(" + str + ")", String.valueOf(result), "setText");
 			} else {
 				refreshEditText();
 			}
@@ -144,8 +134,7 @@ public class Controller implements OnClickListener {
 		case R.id.cosButton:
 			if (checkInput()) {
 				double result = math_functions.getCos();
-				this.textField.setText(String.valueOf(result));
-				globalDataSave("cos("+str+")", String.valueOf(result));
+				postToEditText("cos(" + str + ")", String.valueOf(result), "setText");
 			} else {
 				refreshEditText();
 			}
@@ -153,8 +142,7 @@ public class Controller implements OnClickListener {
 		case R.id.tanButton:
 			if (checkInput()) {
 				double result = math_functions.getTan();
-				this.textField.setText(String.valueOf(result));
-				globalDataSave("tan("+str+")", String.valueOf(result));
+				postToEditText("tan(" + str + ")", String.valueOf(result), "setText");
 			} else {
 				refreshEditText();
 			}
@@ -162,8 +150,7 @@ public class Controller implements OnClickListener {
 		case R.id.sinHButton:
 			if (checkInput()) {
 				double result = math_functions.getSinh();
-				this.textField.setText(String.valueOf(result));
-				globalDataSave("sinH("+str+")", String.valueOf(result));
+				postToEditText("sinH(" + str + ")", String.valueOf(result), "setText");
 			} else {
 				refreshEditText();
 			}
@@ -171,8 +158,7 @@ public class Controller implements OnClickListener {
 		case R.id.cosHButton:
 			if (checkInput()) {
 				double result = math_functions.getCosh();
-				this.textField.setText(String.valueOf(result));
-				globalDataSave("cosH("+str+")", String.valueOf(result));
+				postToEditText("cosH(" + str + ")", String.valueOf(result), "setText");
 			} else {
 				refreshEditText();
 			}
@@ -180,8 +166,7 @@ public class Controller implements OnClickListener {
 		case R.id.tanHButton:
 			if (checkInput()) {
 				double result = math_functions.getTanh();
-				this.textField.setText(String.valueOf(result));
-				globalDataSave("tanH("+str+")", String.valueOf(result));
+				postToEditText("tanH(" + str + ")", String.valueOf(result), "setText");
 			} else {
 				refreshEditText();
 			}
@@ -189,8 +174,7 @@ public class Controller implements OnClickListener {
 		case R.id.logButton:
 			if (checkInput()) {
 				double result = math_functions.getLog();
-				this.textField.setText(String.valueOf(result));
-				globalDataSave("Log("+str+")", String.valueOf(result));
+				postToEditText("Log(" + str + ")", String.valueOf(result), "setText");
 			} else {
 				refreshEditText();
 			}
@@ -198,7 +182,6 @@ public class Controller implements OnClickListener {
 
 		case R.id.squareyButton:
 			if (checkInput()) {
-				double result = math_functions.getTenMultiplier();
 				this.textField.append(" pow ");
 			} else {
 				refreshEditText();
@@ -231,24 +214,13 @@ public class Controller implements OnClickListener {
 				textField.setText(String.valueOf(value));
 				model.savePreferences(this.textField.getText().toString());
 				globalDataSave(str, String.valueOf(value));
-			}
-
-			else {
+			} else {
 				str = str.replaceAll("x", "*");
 				double resultFromParser = 0.0;
 				resultFromParser = Model.getResult(str.replaceAll("=", ""));
 				String result = "";
 				if (Double.compare(Double.NaN, resultFromParser) != 0) {
-					if (!model.dataFormatValidator(String.valueOf(resultFromParser))) {
-						DecimalFormat decimalFormat = new DecimalFormat("0.00##");
-						result = decimalFormat.format(resultFromParser);
-					} else {
-						int integerResult = (int) resultFromParser;
-						result = String.valueOf(integerResult);
-					}
-					Log.v("SetDataToEdit", "Line 70" + result);
-					textField.setText(result);
-					globalDataSave(str, String.valueOf(result));
+					postToEditText(str, String.valueOf(resultFromParser), "setText");
 				} else {
 					textField.setText("");
 					textField.setHint("Syntax Error");
@@ -274,7 +246,30 @@ public class Controller implements OnClickListener {
 			return true;
 		}
 	}
-	private void globalDataSave(String expression, String answer){
+
+	private void postToEditText(String str, String answer, String type) {
+		String result = answer;
+		if (!str.contains("mod") || !str.contains("pow")) {
+			if (!model.dataFormatValidator(String.valueOf(answer))) {
+				Log.v("postToEditText", answer);
+				DecimalFormat decimalFormat = new DecimalFormat("0.00##");
+				result = decimalFormat.format(Double.parseDouble(answer));
+			} else {
+				int integerResult = (int) Double.parseDouble(answer);
+				result = String.valueOf(integerResult);
+			}
+			globalDataSave(str, String.valueOf(result));
+		}
+
+		if (type.equals("append")) {
+			this.textField.append(result);
+		} else {
+			this.textField.setText(result);
+		}
+	}
+
+	private void globalDataSave(String expression, String answer) {
+		HistoryCalculation calculations = new HistoryCalculation();
 		calculations.setExpression(expression);
 		calculations.setAnswer(answer);
 		calculations.setTime(utiliy.getCurrentTime());

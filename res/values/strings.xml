@@ -41,7 +41,7 @@
     <string name="square"><![CDATA[x<sup>2</sup>]]></string>
     <string name="square_y"><![CDATA[x<sup>y</sup>]]></string>
     <string name="cube"><![CDATA[x<sup>3</sup>]]></string>
-
+	<string name="abouttext">Cally developed by two graduates from the KiioLabs. Leave Feedback in here for improvments. Thank you once again for being part of this project and helping it expand.</string>
     <string-array name="nav_drawer_items">
         <item>Regular</item>
         <item>Scientific</item>

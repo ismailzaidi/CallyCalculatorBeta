@@ -3,7 +3,7 @@ package com.kiiolabs.cally.view.Fragments;
 import java.util.ArrayList;
 
 import com.kiiolabs.cally.R;
-import com.kiiolabs.cally.controller.Controller;
+import com.kiiolabs.cally.controller.GlobalButtonListener;
 
 
 import android.graphics.Typeface;
@@ -145,8 +145,8 @@ public class ScientificFragment extends Fragment {
 	public void setUpListeners() {
 		navigationOptionButton.setOnClickListener(new NavigationListener());
 		for (Button button : buttonArray) {
-			button.setOnClickListener(new Controller(button, getActivity().getApplicationContext(), txtField));
-			btnDelete.setOnClickListener(new Controller(button, getActivity().getApplicationContext(), txtField));
+			button.setOnClickListener(new GlobalButtonListener(button, getActivity().getApplicationContext(), txtField));
+			btnDelete.setOnClickListener(new GlobalButtonListener(button, getActivity().getApplicationContext(), txtField));
 		}
 	}
 	private class NavigationListener implements OnClickListener {

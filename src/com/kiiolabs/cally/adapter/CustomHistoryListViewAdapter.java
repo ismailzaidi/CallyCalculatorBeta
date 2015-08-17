@@ -43,7 +43,7 @@ public class CustomHistoryListViewAdapter extends ArrayAdapter<HistoryCalculatio
 
 		holder.historyExpressionTextView.setText("Expression: "+objects.get(position).getExpression());
 		holder.historyAnswerTextView.setText("Answer: "+objects.get(position).getAnswer());
-		holder.historyTimeTextView.setText("Date Taken: "+objects.get(position).getTime());
+		holder.historyTimeTextView.setText("Date: "+objects.get(position).getTime());
 		holder.historyExpressionTextView.setTextColor(context.getResources().getColor(colour));
 		holder.historyAnswerTextView.setTextColor(context.getResources().getColor(colour));
 		holder.historyTimeTextView.setTextColor(context.getResources().getColor(colour));

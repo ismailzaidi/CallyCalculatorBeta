@@ -124,5 +124,4 @@ public class HistoryFragment extends Fragment {
 			adapter.notifyDataSetInvalidated();
 		}
 	}
-
 }

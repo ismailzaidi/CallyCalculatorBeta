@@ -7,6 +7,7 @@ import com.kiiolabs.cally.adapter.NavigationListAdapter;
 import com.kiiolabs.cally.model.Utility;
 import com.kiiolabs.cally.model.bean.HistoryCalculation;
 import com.kiiolabs.cally.model.bean.NavigationItem;
+import com.kiiolabs.cally.view.Fragments.AboutFragment;
 import com.kiiolabs.cally.view.Fragments.ColourSchemeFragment;
 import com.kiiolabs.cally.view.Fragments.HistoryFragment;
 import com.kiiolabs.cally.view.Fragments.RegularFragment;
@@ -37,7 +38,6 @@ public class MainActivity extends FragmentActivity {
 	private ActionBarDrawerToggle mDrawerToggle;
 	private String[] navMenuTitles;
 	private TypedArray navMenuIcons;
-	private int itemSelecctedForShared = 0;
 	private ArrayList<NavigationItem> navDrawerItems;
 	private NavigationListAdapter adapter;
 	private Utility utils;
@@ -69,8 +69,7 @@ public class MainActivity extends FragmentActivity {
 		mDrawerList.setAdapter(adapter);
 
 		if (savedInstanceState == null) {
-			loadSavedPreferences();
-			displayView(itemSelecctedForShared);
+			displayView(0);
 		}
 	}
 
@@ -104,7 +103,6 @@ public class MainActivity extends FragmentActivity {
 	private void displayView(int position) {
 		// update the main content by replacing fragments
 		Fragment fragment = null;
-		savePreferences("ITEM", position);
 		int colour_position = utils.loadSavedPreferencesForColourScheme();
 		TypedArray colourArray = getResources().obtainTypedArray(R.array.colorscheme_icons);
 		int colour = colourArray.getResourceId(colour_position, 0);
@@ -123,6 +121,11 @@ public class MainActivity extends FragmentActivity {
 			break;
 		case 3:
 			fragment = HistoryFragment.InstanceOf(colour);
+			break;
+		case 4:
+			FragmentManager fragmentAboutManager = getSupportFragmentManager();
+			AboutFragment aboutFragment = AboutFragment.InstanceOf(colour);
+			aboutFragment.show(fragmentAboutManager, "");
 			break;
 		default:
 			break;
@@ -167,18 +170,6 @@ public class MainActivity extends FragmentActivity {
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
 
-	private void loadSavedPreferences() {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-		int name = sharedPreferences.getInt("ITEM", 0);
-		itemSelecctedForShared = name;
-	}
-
-	private void savePreferences(String key, int position) {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-		Editor editor = sharedPreferences.edit();
-		editor.putInt(key, position);
-		editor.commit();
-	}
 
 	public DrawerLayout getmDrawerLayout() {
 		return mDrawerLayout;
