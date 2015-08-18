@@ -69,15 +69,23 @@ public class GlobalButtonListener implements OnClickListener {
 		switch (id) {
 		case R.id.delete:
 			if (str.length() != 0) {
-				StringBuilder strBuilder = new StringBuilder(str);
-				strBuilder = strBuilder.deleteCharAt(str.length() - 1);
-				this.textField.setText(strBuilder.toString());
-				model.savePreferences(strBuilder.toString());
+				if (removeOperatorOccurance(str, 'w')) {
+					str = str.replaceAll("\\spow", "");
+					this.textField.setText(str);
+				}else if(removeOperatorOccurance(str, 'd')){
+					str = str.replaceAll("\\smod", "");
+					this.textField.setText(str);
+				}else{
+					StringBuilder strBuilder = new StringBuilder(str);
+					strBuilder = strBuilder.deleteCharAt(str.length() - 1);
+					this.textField.setText(strBuilder.toString());
+					model.savePreferences(strBuilder.toString());
+				}
 			}
 			break;
 		case R.id.squareRootButton:
 			if (checkInput()) {
-				double result = math_functions.getSquareRoot();
+				String result = math_functions.getSquareRoot();
 				postToEditText("sqrt(" + str + ")", String.valueOf(result), "setText");
 			} else {
 				refreshEditText();
@@ -85,7 +93,7 @@ public class GlobalButtonListener implements OnClickListener {
 			break;
 		case R.id.squareButton:
 			if (checkInput()) {
-				double result = math_functions.getSquare();
+				String result = math_functions.getSquare();
 				postToEditText("x^2 x = " + str, String.valueOf(result), "setText");
 			} else {
 				refreshEditText();
@@ -93,7 +101,7 @@ public class GlobalButtonListener implements OnClickListener {
 			break;
 		case R.id.expButton:
 			if (checkInput()) {
-				double result = math_functions.getExp();
+				String result = math_functions.getExp();
 				postToEditText("Ex = " + str, String.valueOf(result), "setText");
 			} else {
 				refreshEditText();
@@ -101,7 +109,7 @@ public class GlobalButtonListener implements OnClickListener {
 			break;
 		case R.id.factorialButton:
 			if (checkInput()) {
-				double result = math_functions.getFactorial();
+				String result = math_functions.getFactorial();
 				postToEditText("!n, n = " + str, String.valueOf(result), "setText");
 			} else {
 				refreshEditText();
@@ -109,7 +117,7 @@ public class GlobalButtonListener implements OnClickListener {
 			break;
 		case R.id.squareCubeButton:
 			if (checkInput()) {
-				double result = math_functions.getCube();
+				String result = math_functions.getCube();
 				postToEditText("x^3 x = " + str, String.valueOf(result), "setText");
 			} else {
 				refreshEditText();
@@ -117,7 +125,7 @@ public class GlobalButtonListener implements OnClickListener {
 			break;
 		case R.id.tenMultiplierButton:
 			if (checkInput()) {
-				double result = math_functions.getTenMultiplier();
+				String result = math_functions.getTenMultiplier();
 				postToEditText("10x  x = " + str, String.valueOf(result), "setText");
 			} else {
 				refreshEditText();
@@ -125,7 +133,7 @@ public class GlobalButtonListener implements OnClickListener {
 			break;
 		case R.id.sinButton:
 			if (checkInput()) {
-				double result = math_functions.getSin();
+				String result = math_functions.getSin();
 				postToEditText("sin(" + str + ")", String.valueOf(result), "setText");
 			} else {
 				refreshEditText();
@@ -133,7 +141,7 @@ public class GlobalButtonListener implements OnClickListener {
 			break;
 		case R.id.cosButton:
 			if (checkInput()) {
-				double result = math_functions.getCos();
+				String result = math_functions.getCos();
 				postToEditText("cos(" + str + ")", String.valueOf(result), "setText");
 			} else {
 				refreshEditText();
@@ -141,7 +149,7 @@ public class GlobalButtonListener implements OnClickListener {
 			break;
 		case R.id.tanButton:
 			if (checkInput()) {
-				double result = math_functions.getTan();
+				String result = math_functions.getTan();
 				postToEditText("tan(" + str + ")", String.valueOf(result), "setText");
 			} else {
 				refreshEditText();
@@ -149,7 +157,7 @@ public class GlobalButtonListener implements OnClickListener {
 			break;
 		case R.id.sinHButton:
 			if (checkInput()) {
-				double result = math_functions.getSinh();
+				String result = math_functions.getSinh();
 				postToEditText("sinH(" + str + ")", String.valueOf(result), "setText");
 			} else {
 				refreshEditText();
@@ -157,7 +165,7 @@ public class GlobalButtonListener implements OnClickListener {
 			break;
 		case R.id.cosHButton:
 			if (checkInput()) {
-				double result = math_functions.getCosh();
+				String result = math_functions.getCosh();
 				postToEditText("cosH(" + str + ")", String.valueOf(result), "setText");
 			} else {
 				refreshEditText();
@@ -165,7 +173,7 @@ public class GlobalButtonListener implements OnClickListener {
 			break;
 		case R.id.tanHButton:
 			if (checkInput()) {
-				double result = math_functions.getTanh();
+				String result = math_functions.getTanh();
 				postToEditText("tanH(" + str + ")", String.valueOf(result), "setText");
 			} else {
 				refreshEditText();
@@ -173,7 +181,7 @@ public class GlobalButtonListener implements OnClickListener {
 			break;
 		case R.id.logButton:
 			if (checkInput()) {
-				double result = math_functions.getLog();
+				String result = math_functions.getLog();
 				postToEditText("Log(" + str + ")", String.valueOf(result), "setText");
 			} else {
 				refreshEditText();
@@ -205,12 +213,12 @@ public class GlobalButtonListener implements OnClickListener {
 	public void setDataToEditText(Button button, String str, EditText textField) {
 		if (button.getText().equals("=")) {
 			if (str.contains("mod")) {
-				int value = math_functions.getMod();
+				String value = math_functions.getMod();
 				textField.setText(String.valueOf(value));
 				model.savePreferences(this.textField.getText().toString());
 				globalDataSave(str, String.valueOf(value));
 			} else if (str.contains("pow")) {
-				double value = math_functions.getSquareY();
+				String value = math_functions.getSquareY();
 				textField.setText(String.valueOf(value));
 				model.savePreferences(this.textField.getText().toString());
 				globalDataSave(str, String.valueOf(value));
@@ -265,6 +273,17 @@ public class GlobalButtonListener implements OnClickListener {
 			this.textField.append(result);
 		} else {
 			this.textField.setText(result);
+		}
+	}
+
+	public boolean removeOperatorOccurance(String expression, char occurance) {
+		char lastExpression = expression.charAt(expression.length()-1);
+		Log.v("removeOperatorOccurance", String.valueOf(lastExpression));
+		Log.v("removeOperatorOccurance", String.valueOf(lastExpression==occurance));
+		if (lastExpression==occurance) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 
