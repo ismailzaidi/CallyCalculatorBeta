@@ -3,49 +3,50 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
+
     <RelativeLayout
-         android:id="@+id/navigation"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:background="@color/babyblue"
-		android:orientation="vertical" >
-		<ImageView
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/babyblue"
+        android:orientation="vertical" >
+
+        <ImageView
             android:id="@+id/icon"
             android:layout_width="25dp"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_margin="10dp"
-            android:layout_alignParentLeft="true"
             android:contentDescription="@string/desc_list_item_icon"
             android:src="@drawable/scientific" />
 
-		<TextView
-			android:id="@+id/textView1"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_centerVertical="true"
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/icon"
-			android:text="Scientific Cally"
-			android:textColor="@color/whitetext"
-			android:textSize="15sp"
-			 />
+            android:text="Scientific Cally"
+            android:textColor="@color/whitetext"
+            android:textSize="15sp" />
 
-		<ImageButton
-		    android:id="@+id/navigationOptionButton"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_alignParentRight="true"
-		    android:layout_alignParentTop="true"
-		    android:background="@android:color/transparent"
-		    android:padding="20dp"
-		    android:src="@drawable/return_icon" />
-		
-	</RelativeLayout>
+        <ImageButton
+            android:id="@+id/navigationOptionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="@android:color/transparent"
+            android:padding="20dp"
+            android:src="@drawable/return_icon" />
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/relativeLayout1"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" >
+
         <EditText
             android:id="@+id/txtField"
             android:layout_width="match_parent"
@@ -55,6 +56,7 @@
             android:gravity="right"
             android:hint="@string/zero"
             android:inputType="text"
+            android:maxLength="20"
             android:paddingBottom="20dp"
             android:paddingRight="10dp"
             android:paddingTop="20dp"
@@ -69,15 +71,14 @@
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/relativeLayout1"
-        android:paddingTop="10dp"
-        android:background="@color/alizarin" >
+        android:background="@color/alizarin"
+        android:paddingTop="10dp" >
 
         <TableRow
             android:id="@+id/tableRow1"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent" 
-            android:layout_weight="1"
-            >
+            android:layout_height="fill_parent"
+            android:layout_weight="1" >
 
             <Button
                 android:id="@+id/factorialButton"
@@ -120,11 +121,11 @@
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
+                android:layout_weight="0.14"
                 android:background="@android:color/transparent"
+                android:padding="10dp"
                 android:text="@string/newCal"
                 android:textColor="@color/whitetext"
-                 android:layout_weight="0.14"
-                 android:padding="10dp"
                 android:textSize="20sp" />
 
             <Button
@@ -132,11 +133,11 @@
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
+                android:layout_weight="0.14"
                 android:background="@android:color/transparent"
+                android:padding="10dp"
                 android:text="@string/leftBracket"
                 android:textColor="@color/whitetext"
-                 android:layout_weight="0.14"
-                 android:padding="10dp"
                 android:textSize="20sp" />
 
             <Button
@@ -144,11 +145,11 @@
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
+                android:layout_weight="0.14"
                 android:background="@android:color/transparent"
+                android:padding="10dp"
                 android:text="@string/rightBracket"
                 android:textColor="@color/whitetext"
-                 android:layout_weight="0.14"
-                 android:padding="10dp"
                 android:textSize="20sp" />
 
             <ImageButton
@@ -156,20 +157,19 @@
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
+                android:layout_weight="0.14"
                 android:background="@android:color/transparent"
-                android:textColor="@color/whitetext"
+                android:padding="10dp"
                 android:src="@drawable/delete_icon"
-                 android:layout_weight="0.14"
-                 android:padding="10dp"
+                android:textColor="@color/whitetext"
                 android:textSize="20sp" />
         </TableRow>
 
         <TableRow
             android:id="@+id/tableRow2"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent" 
-            android:layout_weight="1"
-            >
+            android:layout_height="fill_parent"
+            android:layout_weight="1" >
 
             <Button
                 android:id="@+id/squareCubeButton"
@@ -212,9 +212,9 @@
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
+                android:layout_weight="0.14"
                 android:background="@android:color/transparent"
-                 android:layout_weight="0.14"
-                 android:padding="10dp"
+                android:padding="10dp"
                 android:text="@string/seven"
                 android:textColor="@color/whitetext"
                 android:textSize="20sp" />
@@ -224,11 +224,11 @@
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
+                android:layout_weight="0.14"
                 android:background="@android:color/transparent"
+                android:padding="10dp"
                 android:text="@string/eight"
                 android:textColor="@color/whitetext"
-                 android:layout_weight="0.14"
-                 android:padding="10dp"
                 android:textSize="20sp" />
 
             <Button
@@ -236,10 +236,10 @@
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:background="@android:color/transparent"
-                android:text="@string/nine"
                 android:layout_weight="0.14"
-                 android:padding="10dp"
+                android:background="@android:color/transparent"
+                android:padding="10dp"
+                android:text="@string/nine"
                 android:textColor="@color/whitetext"
                 android:textSize="20sp" />
 
@@ -248,10 +248,10 @@
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:background="@android:color/transparent"
-                android:text="@string/divide"
                 android:layout_weight="0.14"
-                 android:padding="10dp"
+                android:background="@android:color/transparent"
+                android:padding="10dp"
+                android:text="@string/divide"
                 android:textColor="@color/whitetext"
                 android:textSize="20sp" />
         </TableRow>
@@ -260,8 +260,7 @@
             android:id="@+id/tableRow3"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_weight="1"
-             >
+            android:layout_weight="1" >
 
             <Button
                 android:id="@+id/sinButton"
@@ -304,10 +303,10 @@
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
+                android:layout_weight="0.14"
                 android:background="@android:color/transparent"
+                android:padding="10dp"
                 android:text="@string/four"
-                 android:padding="10dp"
-                 android:layout_weight="0.14"
                 android:textColor="@color/whitetext"
                 android:textSize="20sp" />
 
@@ -316,10 +315,10 @@
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:background="@android:color/transparent"
-                android:text="@string/five"
                 android:layout_weight="0.14"
-                 android:padding="10dp"
+                android:background="@android:color/transparent"
+                android:padding="10dp"
+                android:text="@string/five"
                 android:textColor="@color/whitetext"
                 android:textSize="20sp" />
 
@@ -328,10 +327,10 @@
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
+                android:layout_weight="0.14"
                 android:background="@android:color/transparent"
+                android:padding="10dp"
                 android:text="@string/six"
-                 android:padding="10dp"
-                 android:layout_weight="0.14"
                 android:textColor="@color/whitetext"
                 android:textSize="20sp" />
 
@@ -340,10 +339,10 @@
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
+                android:layout_weight="0.14"
                 android:background="@android:color/transparent"
+                android:padding="10dp"
                 android:text="@string/multiply"
-                 android:padding="10dp"
-                 android:layout_weight="0.14"
                 android:textColor="@color/whitetext"
                 android:textSize="20sp" />
         </TableRow>
@@ -351,9 +350,8 @@
         <TableRow
             android:id="@+id/tableRow4"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent" 
-            android:layout_weight="1"
-            >
+            android:layout_height="fill_parent"
+            android:layout_weight="1" >
 
             <Button
                 android:id="@+id/sinHButton"
@@ -396,10 +394,10 @@
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
+                android:layout_weight="0.14"
                 android:background="@android:color/transparent"
+                android:padding="10dp"
                 android:text="@string/one"
-                 android:padding="10dp"
-                 android:layout_weight="0.14"
                 android:textColor="@color/whitetext"
                 android:textSize="20sp" />
 
@@ -408,10 +406,10 @@
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:background="@android:color/transparent"
-                android:text="@string/two"
                 android:layout_weight="0.14"
-                 android:padding="10dp"
+                android:background="@android:color/transparent"
+                android:padding="10dp"
+                android:text="@string/two"
                 android:textColor="@color/whitetext"
                 android:textSize="20sp" />
 
@@ -420,10 +418,10 @@
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
+                android:layout_weight="0.14"
                 android:background="@android:color/transparent"
+                android:padding="10dp"
                 android:text="@string/three"
-                 android:padding="10dp"
-                 android:layout_weight="0.14"
                 android:textColor="@color/whitetext"
                 android:textSize="20sp" />
 
@@ -432,10 +430,10 @@
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
+                android:layout_weight="0.14"
                 android:background="@android:color/transparent"
+                android:padding="10dp"
                 android:text="@string/subtract"
-                 android:padding="10dp"
-                 android:layout_weight="0.14"
                 android:textColor="@color/whitetext"
                 android:textSize="20sp" />
         </TableRow>
@@ -444,8 +442,7 @@
             android:id="@+id/tableRow5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-             >
+            android:layout_weight="1" >
 
             <Button
                 android:id="@+id/logButton"
@@ -488,10 +485,10 @@
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
+                android:layout_weight="0.14"
                 android:background="@android:color/transparent"
                 android:padding="10dp"
                 android:text="@string/zero"
-                android:layout_weight="0.14"
                 android:textColor="@color/whitetext"
                 android:textSize="20sp" />
 
@@ -500,10 +497,10 @@
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
+                android:layout_weight="0.14"
                 android:background="@android:color/transparent"
                 android:padding="10dp"
                 android:text="@string/decimal"
-                android:layout_weight="0.14"
                 android:textColor="@color/whitetext"
                 android:textSize="20sp" />
 
@@ -512,10 +509,10 @@
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:background="@android:color/transparent"
-                android:text="@string/add"
-                android:padding="10dp"
                 android:layout_weight="0.14"
+                android:background="@android:color/transparent"
+                android:padding="10dp"
+                android:text="@string/add"
                 android:textColor="@color/whitetext"
                 android:textSize="20sp" />
 
@@ -524,10 +521,10 @@
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:background="@android:color/transparent"
-                android:text="@string/equal"
                 android:layout_weight="0.14"
+                android:background="@android:color/transparent"
                 android:padding="10dp"
+                android:text="@string/equal"
                 android:textColor="@color/whitetext"
                 android:textSize="20sp" />
         </TableRow>

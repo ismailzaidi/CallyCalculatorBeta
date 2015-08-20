@@ -1,5 +1,7 @@
 package com.kiiolabs.cally.model;
 
+import java.security.InvalidAlgorithmParameterException;
+
 import org.nfunk.jep.function.Exp;
 
 import android.util.Log;
@@ -39,67 +41,68 @@ public class MathamaticalFunctions {
 		
 		int value1 = Integer.parseInt(expression.split("mod")[0]);
 		int value2 = Integer.parseInt(expression.split("mod")[1]);
-		return (value1 % value2);
+		return intValidator((value1 % value2));
 	}
 
 	public String getTenMultiplier() {
-		return (int) Math.pow(10,Double.parseDouble(expression));
+		String tenValue = intValidator((int) Math.pow(10,Double.parseDouble(expression)));
+		return tenValue;
 	}
 
 	public String getSquareRoot() {
-		return Math.sqrt(Double.parseDouble(expression));
+		return doubleValidator(Math.sqrt(Double.parseDouble(expression)));
 	}
 	public String getSquare() {
-		return Math.pow(Double.parseDouble(expression), 2);
+		return doubleValidator(Math.pow(Double.parseDouble(expression), 2));
 	}
 
 	public String getCubeSquare() {
-		return Math.cbrt(Double.parseDouble(expression));
+		return doubleValidator(Math.cbrt(Double.parseDouble(expression)));
 	}
 
 	public String getCube() {
-		return Math.pow(Double.parseDouble(expression), 3);
+		return doubleValidator(Math.pow(Double.parseDouble(expression), 3));
 	}
 
 	public String getSquareY() {
 		expression = expression.replaceAll("\\s+", "");
 		double value1 = Double.parseDouble(expression.split("pow")[0]);
 		double value2 = Double.parseDouble(expression.split("pow")[1]);
-		return Math.pow(value1, value2);
+		return doubleValidator(Math.pow(value1, value2));
 	}
 
 	public String getSin() {
 		double toDegree = Math.toRadians(Double.parseDouble(expression));
-		return Math.sin(toDegree);
+		return doubleValidator(Math.sin(toDegree));
 	}
 
 	public String getCos() {
 		double toDegree = Math.toRadians(Double.parseDouble(expression));
-		return  Math.cos(toDegree);
+		return  doubleValidator(Math.cos(toDegree));
 	}
 
 	public String getTan() {
 		double toDegree = Math.toRadians(Double.parseDouble(expression));
-		return  Math.tan(toDegree);
+		return  doubleValidator(Math.tan(toDegree));
 	}
 
 	public String getSinh() {
 		double toDegree = Math.toRadians(Double.parseDouble(expression));
-		return  Math.sinh(toDegree);
+		return  doubleValidator(Math.sinh(toDegree));
 	}
 
 	public String getCosh() {
 		double toDegree = Math.toRadians(Double.parseDouble(expression));
-		return  Math.cosh(toDegree);
+		return  doubleValidator(Math.cosh(toDegree));
 	}
 
 	public String getTanh() {
 		double toDegree = Math.toRadians(Double.parseDouble(expression));
-		return  Math.tanh(toDegree);
+		return  doubleValidator(Math.tanh(toDegree));
 	}
 	public String getExp(){
 		
-		return Math.exp(Double.parseDouble(expression));
+		return doubleValidator(Math.exp(Double.parseDouble(expression)));
 	}
 	/**
 	 * Taken from tutorialPoint website Credit to them
@@ -111,19 +114,19 @@ public class MathamaticalFunctions {
 		long num = Long.parseLong(expression);
 		long result = 1;
 		if (num == 0) {
-			return 1;
+			return String.valueOf(1);
 		} else
 
 		{
 			for (int i = 2; i <= num; i++) {
 				result *= i;
 			}
-			return result;
+			return longValidator(result);
 		}
 	}
 	
 	public String getLog() {
-		return Math.log(Double.parseDouble(expression));
+		return doubleValidator(Math.log(Double.parseDouble(expression)));
 	}
 	public String longValidator(long value){
 		if(value>MAX_LONG || value < MIN_LONG){

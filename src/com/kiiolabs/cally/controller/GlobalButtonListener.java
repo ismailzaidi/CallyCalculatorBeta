@@ -1,7 +1,13 @@
 package com.kiiolabs.cally.controller;
 
+import java.text.DecimalFormat;
+
+import com.kiiolabs.cally.R;
+import com.kiiolabs.cally.model.MathamaticalFunctions;
+import com.kiiolabs.cally.model.Model;
+import com.kiiolabs.cally.model.Utility;
+
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.PorterDuff;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -10,16 +16,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-
-import java.text.DecimalFormat;
-
-import com.kiiolabs.cally.R;
-import com.kiiolabs.cally.model.MathamaticalFunctions;
-import com.kiiolabs.cally.model.Model;
-import com.kiiolabs.cally.model.Utility;
-import com.kiiolabs.cally.model.DB.DBHandler;
-import com.kiiolabs.cally.model.bean.HistoryCalculation;
+import android.widget.Toast;
 
 /**
  * Controller for handelling user input
@@ -34,18 +31,18 @@ public class GlobalButtonListener implements OnClickListener {
 	private EditText textField;
 	private Model model;
 	private MathamaticalFunctions math_functions;
-	private Utility utiliy;
-	private DBHandler handler;
+	private int colour;
+	private Utility utils;
 
 	public GlobalButtonListener(Button button, Context context, EditText textField) {
 		super();
 		this.button = button;
 		this.context = context;
 		this.textField = textField;
+		utils = new Utility(context);
+		colour = utils.getColourGlobal();
 		model = new Model(context);
-		utiliy = new Utility(context);
 		math_functions = new MathamaticalFunctions();
-		handler = new DBHandler(context);
 		SetOnText();
 
 	}
@@ -57,8 +54,30 @@ public class GlobalButtonListener implements OnClickListener {
 		}
 	}
 
+	private void onButtonEffect(View button) {
+		button.setOnTouchListener(new OnTouchListener() {
+
+			public boolean onTouch(View v, MotionEvent event) {
+				switch (event.getAction()) {
+				case MotionEvent.ACTION_DOWN: {
+					v.setBackgroundColor(context.getResources().getColor(android.R.color.black));
+					v.invalidate();
+					break;
+				}
+				case MotionEvent.ACTION_UP: {
+					v.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
+					v.invalidate();
+					break;
+				}
+				}
+				return false;
+			}
+		});
+	}
+
 	@Override
 	public void onClick(View v) {
+//		onButtonEffect(button); Disabled Feature TODO
 		String str = this.textField.getText().toString();
 		math_functions.setExpression(str);
 		postToViews(str, v);
@@ -69,13 +88,13 @@ public class GlobalButtonListener implements OnClickListener {
 		switch (id) {
 		case R.id.delete:
 			if (str.length() != 0) {
-				if (removeOperatorOccurance(str, 'w')) {
+				if (model.removeScientificOccurance(str, 'w')) {
 					str = str.replaceAll("\\spow", "");
 					this.textField.setText(str);
-				}else if(removeOperatorOccurance(str, 'd')){
+				} else if (model.removeScientificOccurance(str, 'd')) {
 					str = str.replaceAll("\\smod", "");
 					this.textField.setText(str);
-				}else{
+				} else {
 					StringBuilder strBuilder = new StringBuilder(str);
 					strBuilder = strBuilder.deleteCharAt(str.length() - 1);
 					this.textField.setText(strBuilder.toString());
@@ -216,12 +235,12 @@ public class GlobalButtonListener implements OnClickListener {
 				String value = math_functions.getMod();
 				textField.setText(String.valueOf(value));
 				model.savePreferences(this.textField.getText().toString());
-				globalDataSave(str, String.valueOf(value));
+				model.globalDataSave(str, String.valueOf(value));
 			} else if (str.contains("pow")) {
 				String value = math_functions.getSquareY();
 				textField.setText(String.valueOf(value));
 				model.savePreferences(this.textField.getText().toString());
-				globalDataSave(str, String.valueOf(value));
+				model.globalDataSave(str, String.valueOf(value));
 			} else {
 				str = str.replaceAll("x", "*");
 				double resultFromParser = 0.0;
@@ -231,24 +250,29 @@ public class GlobalButtonListener implements OnClickListener {
 					postToEditText(str, String.valueOf(resultFromParser), "setText");
 				} else {
 					textField.setText("");
-					textField.setHint("Syntax Error");
+					textField.setHintTextColor(context.getResources().getColor(colour));
+					// textField.setHint("0");
+					Toast.makeText(context, "Invalid Input", Toast.LENGTH_SHORT).show();
 				}
 			}
 		}
 		if (button.getText().equals("C")) {
 			textField.setText("");
 			textField.setHint(R.string.zero);
+			textField.setHintTextColor(context.getResources().getColor(colour));
 		}
 	}
 
 	private void refreshEditText() {
 		this.textField.setText("");
 		this.textField.setHint(R.string.zero);
+		Toast.makeText(context, "Invalid Input", Toast.LENGTH_SHORT).show();
+
 	}
 
 	public boolean checkInput() {
 		String txt = this.textField.getText().toString();
-		if (txt.equals("") || txt.contentEquals("(") || txt.contains(")")) {
+		if (txt.equals("") || txt.contentEquals("(") || txt.contains(")")||txt.contains("x") || txt.contains("-")||txt.contains("+")||txt.contains("/")) {
 			return false;
 		} else {
 			return true;
@@ -257,41 +281,27 @@ public class GlobalButtonListener implements OnClickListener {
 
 	private void postToEditText(String str, String answer, String type) {
 		String result = answer;
-		if (!str.contains("mod") || !str.contains("pow")) {
-			if (!model.dataFormatValidator(String.valueOf(answer))) {
-				Log.v("postToEditText", answer);
-				DecimalFormat decimalFormat = new DecimalFormat("0.00##");
-				result = decimalFormat.format(Double.parseDouble(answer));
-			} else {
-				int integerResult = (int) Double.parseDouble(answer);
-				result = String.valueOf(integerResult);
+		Log.v("postToEditText", answer);
+		if (!model.errorHandler(answer)) {
+			if (!str.contains("mod") || !str.contains("pow")) {
+				if (!model.dataFormatValidator(String.valueOf(answer))) {
+					Log.v("postToEditText", answer);
+					DecimalFormat decimalFormat = new DecimalFormat("0.00##");
+					result = decimalFormat.format(Double.parseDouble(answer));
+				} else {
+					int integerResult = (int) Double.parseDouble(answer);
+					result = String.valueOf(integerResult);
+				}
+				model.globalDataSave(str, String.valueOf(result));
 			}
-			globalDataSave(str, String.valueOf(result));
-		}
-
-		if (type.equals("append")) {
-			this.textField.append(result);
+			if (type.equals("append")) {
+				this.textField.append(result);
+			} else {
+				this.textField.setText(result);
+			}
 		} else {
-			this.textField.setText(result);
+			this.textField.setHint(result);
 		}
 	}
 
-	public boolean removeOperatorOccurance(String expression, char occurance) {
-		char lastExpression = expression.charAt(expression.length()-1);
-		Log.v("removeOperatorOccurance", String.valueOf(lastExpression));
-		Log.v("removeOperatorOccurance", String.valueOf(lastExpression==occurance));
-		if (lastExpression==occurance) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	private void globalDataSave(String expression, String answer) {
-		HistoryCalculation calculations = new HistoryCalculation();
-		calculations.setExpression(expression);
-		calculations.setAnswer(answer);
-		calculations.setTime(utiliy.getCurrentTime());
-		handler.addHistoryCalculations(calculations);
-	}
 }

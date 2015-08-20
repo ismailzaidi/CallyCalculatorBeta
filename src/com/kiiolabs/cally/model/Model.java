@@ -5,6 +5,8 @@ import java.text.DecimalFormat;
 import org.nfunk.jep.JEP;
 
 import com.kiiolabs.cally.R;
+import com.kiiolabs.cally.model.DB.DBHandler;
+import com.kiiolabs.cally.model.bean.HistoryCalculation;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -17,10 +19,14 @@ import android.widget.EditText;
 public class Model {
 	private Context context;
 	private String KEY_VALUE = "com.kiiolabs.cally.value";
+	private DBHandler handler;
+	private Utility utiliy;
 
 	public Model(Context context) {
 		super();
 		this.context = context;
+		handler = new DBHandler(context);
+		utiliy = new Utility(context);
 	}
 
 	public static double getResult(String input) {
@@ -61,7 +67,7 @@ public class Model {
 			double resultFromParser = 0.0;
 			resultFromParser = Model.getResult(str.replaceAll("=", ""));
 			String result = "";
-			if (Double.compare(Double.NaN, resultFromParser) != 0) {
+			if (Double.compare(Double.NaN, resultFromParser) != 0 || Double.compare(Double.POSITIVE_INFINITY, resultFromParser)!=0) {
 				if (!dataFormatValidator(String.valueOf(resultFromParser))) {
 					DecimalFormat decimalFormat = new DecimalFormat("0.00##");
 					result = decimalFormat.format(resultFromParser);
@@ -73,13 +79,49 @@ public class Model {
 				textField.setText(result);
 			} else {
 				textField.setText("");
-				textField.setHint("Syntax Error");
+				textField.setHint("Invalid Operation");
 			}
 		}
 		if (button.getText().equals("C")) {
 			textField.setText("");
 			textField.setHint(R.string.zero);
 		}
+	}
+	public boolean errorHandler(String str) {
+		if (str.contains("Syntax")) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
+	public boolean removeScientificOccurance(String expression, char occurance) {
+		char lastExpression = expression.charAt(expression.length() - 1);
+		Log.v("removeOperatorOccurance", String.valueOf(lastExpression));
+		Log.v("removeOperatorOccurance", String.valueOf(lastExpression == occurance));
+		if (lastExpression == occurance) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	private boolean removeOperatorOccurance(String expression){
+		char[] arrexpression = {'x','/','+','-'};
+		char lastExpression = expression.charAt(expression.length() - 1);
+		for (int i = 0; i < arrexpression.length; i++) {
+			if( arrexpression[i] == lastExpression){
+				return true;
+			}
+		}
+		return false;
+	}
+	public void globalDataSave(String expression, String answer) {
+		HistoryCalculation calculations = new HistoryCalculation();
+		calculations.setExpression(expression);
+		calculations.setAnswer(answer);
+		calculations.setTime(utiliy.getCurrentTime());
+		handler.addHistoryCalculations(calculations);
 	}
 
 }

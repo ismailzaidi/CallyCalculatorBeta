@@ -69,15 +69,15 @@ public class RegularFragment extends Fragment {
 		navigationOptionButton.setOnClickListener(new NavigationListener());
 		
 		String value = getArguments().getString(Key_STORE);
+		tableLayout.setBackgroundColor(getResources().getColor(colour_scheme));
+		txtField.setTextColor(getResources().getColor(colour_scheme));
+		txtField.setHintTextColor(getResources().getColor(colour_scheme));
 		if (value == null) {
 			value = "0";
 			txtField.setHint(String.valueOf(value));
 		} else {
 			txtField.setText(String.valueOf(value));
 		}
-		tableLayout.setBackgroundColor(getResources().getColor(colour_scheme));
-		txtField.setTextColor(getResources().getColor(colour_scheme));
-		txtField.setHintTextColor(getResources().getColor(colour_scheme));
 		navigationLayout.setBackgroundColor(getResources().getColor(colour_scheme));
 		setEditTextProperties();
 		addToArray((ViewGroup) rootView);

@@ -44,7 +44,7 @@
 
     <LinearLayout
         android:id="@+id/relativeLayout1"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
         <EditText
@@ -56,12 +56,14 @@
             android:gravity="right"
             android:hint="@string/zero"
             android:inputType="text"
+            android:maxLength="20"
             android:paddingBottom="20dp"
             android:paddingRight="10dp"
             android:paddingTop="20dp"
             android:textColor="@color/alizarin"
             android:textColorHint="@color/alizarin"
             android:textSize="40sp" />
+
     </LinearLayout>
 
     <TableLayout

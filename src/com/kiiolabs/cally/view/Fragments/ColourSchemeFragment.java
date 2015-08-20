@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,13 +73,20 @@ public class ColourSchemeFragment extends DialogFragment {
 			tick_image.setVisibility(View.VISIBLE);
 			utils.savePreferencesForColourScheme(position);
 			FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-			Fragment fragment = RegularFragment.InstanceOf(color);
+			String fragmentTag = fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount()-1).getName();
+			Fragment fragment = null;
+			if(fragmentTag.equals("com.cally.regular")){
+				fragment = RegularFragment.InstanceOf(color);
+			} else if(fragmentTag.equals("com.cally.scientific")){
+				fragment = ScientificFragment.InstanceOf(color);
+			}else{
+				fragment = HistoryFragment.InstanceOf(color);
+			}
 			fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
 			getDialog().dismiss();
 		}
 
 	}
-
 	public ArrayList<ColourScheme> getColourScheme() {
 		ArrayList<ColourScheme> schemeList = new ArrayList<ColourScheme>();
 		titles = context.getResources().getStringArray(R.array.scheme_items);

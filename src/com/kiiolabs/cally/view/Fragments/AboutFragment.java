@@ -39,7 +39,6 @@ public class AboutFragment extends DialogFragment {
 		View aboutDialog = inflater.inflate(com.kiiolabs.cally.R.layout.about_dialog_fragment, container, false);
 		getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
 		context = getActivity().getApplicationContext();
-		int colour_scheme = getArguments().getInt(Colour_Key);
 		aboutTextView = (TextView) aboutDialog.findViewById(R.id.aboutTextView);
 		link1TextView = (TextView) aboutDialog.findViewById(R.id.link1);
 		link2TextView = (TextView) aboutDialog.findViewById(R.id.link2);

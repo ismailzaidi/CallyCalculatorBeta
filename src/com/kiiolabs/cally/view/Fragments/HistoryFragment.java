@@ -112,7 +112,7 @@ public class HistoryFragment extends Fragment {
 		}
 
 	}
-
+	
 	private class HistoryListener implements OnClickListener {
 		@Override
 		public void onClick(View v) {

@@ -25,12 +25,14 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class MainActivity extends FragmentActivity {
 	private DrawerLayout mDrawerLayout;
@@ -41,6 +43,7 @@ public class MainActivity extends FragmentActivity {
 	private ArrayList<NavigationItem> navDrawerItems;
 	private NavigationListAdapter adapter;
 	private Utility utils;
+	private int colour;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +56,7 @@ public class MainActivity extends FragmentActivity {
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.list_slidermenu);
 		utils = new Utility(getApplicationContext());
-
+		colour = utils.getColourGlobal();
 		navDrawerItems = new ArrayList<NavigationItem>();
 
 		navDrawerItems.add(new NavigationItem(navMenuTitles[0], navMenuIcons.getResourceId(0, -1)));
@@ -69,7 +72,8 @@ public class MainActivity extends FragmentActivity {
 		mDrawerList.setAdapter(adapter);
 
 		if (savedInstanceState == null) {
-			displayView(0);
+			int tempPosition = utils.loadSavedPreferencesForUserChoice();
+			displayView(tempPosition);
 		}
 	}
 
@@ -100,19 +104,32 @@ public class MainActivity extends FragmentActivity {
 		return false;
 	}
 
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		FragmentManager fragmentManager = this.getSupportFragmentManager();
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			fragmentManager.popBackStack();
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
+
 	private void displayView(int position) {
 		// update the main content by replacing fragments
 		Fragment fragment = null;
-		int colour_position = utils.loadSavedPreferencesForColourScheme();
-		TypedArray colourArray = getResources().obtainTypedArray(R.array.colorscheme_icons);
-		int colour = colourArray.getResourceId(colour_position, 0);
 		Log.v("Colour DisplayItem", String.valueOf(colour));
+		String tag = "default";
 		switch (position) {
 		case 0:
 			fragment = RegularFragment.InstanceOf(colour);
+			tag = "com.cally.regular";
+			utils.savePreferencesForUserChoice(position);
 			break;
 		case 1:
 			fragment = ScientificFragment.InstanceOf(colour);
+			tag = "com.cally.scientific";
+			utils.savePreferencesForUserChoice(position);
 			break;
 		case 2:
 			FragmentManager dialog = getSupportFragmentManager();
@@ -121,6 +138,8 @@ public class MainActivity extends FragmentActivity {
 			break;
 		case 3:
 			fragment = HistoryFragment.InstanceOf(colour);
+			tag = "com.cally.history";
+			utils.savePreferencesForUserChoice(position);
 			break;
 		case 4:
 			FragmentManager fragmentAboutManager = getSupportFragmentManager();
@@ -133,7 +152,8 @@ public class MainActivity extends FragmentActivity {
 
 		if (fragment != null) {
 			FragmentManager fragmentManager = getSupportFragmentManager();
-			fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
+			fragmentManager.beginTransaction().replace(R.id.frame_container, fragment, tag).addToBackStack(tag)
+					.commit();
 
 			// update selected item and title, then close the drawer
 			mDrawerList.setItemChecked(position, true);
@@ -146,7 +166,6 @@ public class MainActivity extends FragmentActivity {
 		}
 		CloseDrawer();
 	}
-
 
 	/**
 	 * When using the ActionBarDrawerToggle, you must call it during
@@ -169,7 +188,6 @@ public class MainActivity extends FragmentActivity {
 		// Pass any configuration change to the drawer toggls
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
-
 
 	public DrawerLayout getmDrawerLayout() {
 		return mDrawerLayout;
